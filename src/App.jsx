@@ -187,9 +187,9 @@ export default function App() {
                 rectangle: true,
                 polygon: true,
                 circle: true,
-                marker: false,
-                polyline: false,
-                circlemarker: false,
+                marker: true,
+                polyline: true,
+                circlemarker: true,
               }}
             />
           </FeatureGroup>
