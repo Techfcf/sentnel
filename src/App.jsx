@@ -149,7 +149,7 @@ export default function App() {
               className="flex items-center bg-green-100 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-lg"
             >
               <img
-                className="w-6 h-6 mr-2 rounded-full"
+                className="w-20 h-20 mr-2 rounded-full"
                 src={evalscripts.evalscripts[index].image}
                 alt=""
               />
