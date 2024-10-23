@@ -49,7 +49,7 @@ export default function App() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3dE9hV1o2aFJJeUowbGlsYXctcWd4NzlUdm1hX3ZKZlNuMW1WNm5HX0tVIn0.eyJleHAiOjE3Mjk2ODk1NjQsImlhdCI6MTcyOTY4NTk2NCwianRpIjoiZTZiNzdmMjUtOWIyOS00MzJkLWFhYmMtMzhhODQ4YTZjODgyIiwiaXNzIjoiaHR0cHM6Ly9zZXJ2aWNlcy5zZW50aW5lbC1odWIuY29tL2F1dGgvcmVhbG1zL21haW4iLCJzdWIiOiJlMzczZTI2OS0xYTAzLTRlMGEtYWU5NC1lMDMyMTUyODlkMzUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiNDkuMzYuMTgxLjEiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1jYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJjbGllbnRBZGRyZXNzIjoiNDkuMzYuMTgxLjEiLCJhY2NvdW50IjoiMTE4MzdmNDEtNjI0Ni00NzQ3LTgwZWMtYTQ5NjA4MjNkNDZkIiwiY2xpZW50X2lkIjoiY2I5ZWU2ODMtNWEzMi00NTg4LTk2ZTMtY2E2NGJkNzc2NjMyIn0.mwsmFWtFTcJXDfdUQrbUB575zNXGKy5kcrwnPmUILzn9u0Yelu5gc_a-xxS-0O_-H97uneanHNC-CzCD1xrJHT11n59ojaxdWYS3OzYjzflFhxUNjuBQ7tba1RuAZED0SaBc5Dc62VWVuEWJpejkun71VQsH1jJH5DVp3GHICdjjy0Ec9x46-BZNhlw_pVznGoViEoMOGNwD_qtyNg8mBm8HuH1XZuJY54Gr_LJINeMY085jYd8XvX6rZniMOArArwq3mKGeWCnSJL9IfSJzKMDj5GfZ4lxI-i-LYPU1MM2H-BelWKvhslA-OpvaP3ysRzHEss5-SgvC1SCabfJlQA",
+              "Bearer your-token-here", // Add your bearer token here
           },
           body: JSON.stringify({
             input: {
@@ -116,53 +116,63 @@ export default function App() {
   };
 
   return (
-<>
-    <div className="my-[20px] ">
-    <label>Start Date: </label>
-    <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      dateFormat="yyyy-MM-dd"
-    />
-    <label>End Date: </label>
-    <DatePicker
-      selected={endDate}
-      onChange={(date) => setEndDate(date)}
-      dateFormat="yyyy-MM-dd"
-    />
-  </div>
-    <div className="flex flex-row justify-around ">
-      <div >
-      
+    <div className="flex flex-col items-center p-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+        {/* Start Date and End Date Pickers */}
+        <div className="flex flex-col">
+          <label className="text-red-500 font-bold">Start Date:</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-blue-500 font-bold">End Date:</label>
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+      </div>
 
-        {/* Buttons to select evalscripts */}
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-row justify-around items-center w-full">
+        {/* Evalscript Selection */}
+        <div className="flex flex-col gap-4 w-full sm:w-1/3">
           {evalscripts.evalscripts.map((_, index) => (
             <button
               key={index}
               onClick={() => setSelectedEvalscript(index)}
-              className="w-2/5 flex flex-row gap-x-[8px] items-center justify-normal  bg-green-100 hover:bg-green-200 text-black font-bold p-[10px] rounded-[50px] w-[300px]"
+              className="flex items-center bg-green-100 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-lg"
             >
-              {" "}
-              <img className="size-16 rounded-[100px] " src={evalscripts.evalscripts[index].image} alt="" />
-              <>{evalscripts.evalscripts[index].name}</>
+              <img
+                className="w-6 h-6 mr-2 rounded-full"
+                src={evalscripts.evalscripts[index].image}
+                alt=""
+              />
+              {evalscripts.evalscripts[index].name}
             </button>
           ))}
         </div>
 
+        {/* Fetch Image Button */}
         <button
           onClick={getImage}
-          className="bg-green-100 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-full"
+          className="mt-4 sm:mt-0 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
         >
           Fetch Image
         </button>
       </div>
 
-      <div>
+      {/* Map Container */}
+      <div className="w-full mt-4">
         <MapContainer
           center={[46.07136085454608, 14.190902709960938]}
           zoom={10}
-          style={{ height: "600px", width: "1000px", marginTop: "20px" }}
+          style={{ height: "500px", width: "100%" }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -186,6 +196,5 @@ export default function App() {
         </MapContainer>
       </div>
     </div>
-    </>
   );
 }
