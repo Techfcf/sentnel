@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -11,12 +11,12 @@ import "leaflet-draw/dist/leaflet.draw.css";
 import { EditControl } from "react-leaflet-draw";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import omnivore from "leaflet-omnivore";
+import JSZip from "jszip";
 import evalscripts from "./assets/evalscripts.json";
 
 function ImageLayer({ imageUrl, aoiBounds }) {
   const map = useMap();
-
   if (imageUrl && aoiBounds) {
     map.fitBounds(aoiBounds);
   }
@@ -33,11 +33,30 @@ export default function App() {
   const [endDate, setEndDate] = useState(new Date("2023-10-31"));
   const [geojson, setGeojson] = useState(null);
   const [selectedEvalscript, setSelectedEvalscript] = useState(0);
+  const [accessToken, setAccessToken] = useState("");
   const featureGroupRef = useRef(null);
+  const mapRef = useRef(null);
+  const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      try {
+        const response = await fetch("https://backend.fitclimate.com/auth/get-token", {
+          method: "GET",
+        });
+        const data = await response.json();
+        setAccessToken(data.token);
+      } catch (error) {
+        console.error("Error fetching access token:", error);
+      }
+    };
+
+    fetchAccessToken();
+  }, []);
 
   const getImage = async () => {
-    if (!geojson) {
-      console.error("No AOI defined. Please draw an area on the map.");
+    if (!geojson || !accessToken) {
+      console.error("No AOI defined or access token missing.");
       return;
     }
 
@@ -48,8 +67,7 @@ export default function App() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3dE9hV1o2aFJJeUowbGlsYXctcWd4NzlUdm1hX3ZKZlNuMW1WNm5HX0tVIn0.eyJleHAiOjE3MzAxMDA0NzAsImlhdCI6MTczMDA5Njg3MCwianRpIjoiY2ZhODdkZTItZWZjZC00NWQ4LWJkMzYtNjg1ODQ0MjI4ZDFkIiwiaXNzIjoiaHR0cHM6Ly9zZXJ2aWNlcy5zZW50aW5lbC1odWIuY29tL2F1dGgvcmVhbG1zL21haW4iLCJzdWIiOiJlMzczZTI2OS0xYTAzLTRlMGEtYWU5NC1lMDMyMTUyODlkMzUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTU3LjM1LjQyLjE2MyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWNiOWVlNjgzLTVhMzItNDU4OC05NmUzLWNhNjRiZDc3NjYzMiIsImNsaWVudEFkZHJlc3MiOiIxNTcuMzUuNDIuMTYzIiwiYWNjb3VudCI6IjExODM3ZjQxLTYyNDYtNDc0Ny04MGVjLWE0OTYwODIzZDQ2ZCIsImNsaWVudF9pZCI6ImNiOWVlNjgzLTVhMzItNDU4OC05NmUzLWNhNjRiZDc3NjYzMiJ9.ZepQZ32hXcRy-TFilMHITNQn-2QSP9oFLUCBDmvKrQAzUuyjGBsmRnBmfe82EDq51xN7OiBD2QocDtPDbYRBqUZFmrPCboTp1vO9Mo6lf1y8_D2RDCEubowXfE-mseroOYAfR97YCKqEWhtjvRctBoBTlYyrF0zG7pgico0IyiQozdJeb87VjaWtlArqG8xA7nlUBgzbGyRCtClblNA2C7GZoHpwrn4z0ZJqIwdRPXaQN_OPnWcTds4ewzVI08jgHqkWr4KBJhCEibDq_K4oq-SCpnQQwN2-6jvQPFhqkiN2QIOuRitgct_i3erDMbI_zeAHXg2bPM8Biq4Ne0awmw", // Replace <YOUR_ACCESS_TOKEN> with your actual token
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({
             input: {
@@ -115,6 +133,71 @@ export default function App() {
     setGeojson(shape);
   };
 
+  const handleFileUpload = (event) => {
+    const uploadedFile = event.target.files[0];
+    if (!uploadedFile) return;
+
+    setFile(uploadedFile);
+  };
+
+  const handleFileSubmit = async () => {
+    if (!file) return;
+
+    const fileReader = new FileReader();
+    fileReader.onload = async (e) => {
+      const fileContent = e.target.result;
+
+      let bounds;
+      if (file.type === "application/vnd.google-earth.kml+xml") {
+        const kmlLayer = omnivore.kml.parseString(fileContent);
+        kmlLayer.addTo(mapRef.current);
+        bounds = kmlLayer.getBounds();
+        setGeojson(kmlLayer.toGeoJSON());
+      } else if (
+        file.type === "application/json" ||
+        file.type === "application/geo+json"
+      ) {
+        const geojsonLayer = L.geoJSON(JSON.parse(fileContent));
+        geojsonLayer.addTo(mapRef.current);
+        bounds = geojsonLayer.getBounds();
+        setGeojson(JSON.parse(fileContent));
+      } else if (file.type === "application/zip") {
+        const zip = new JSZip();
+        const content = await zip.loadAsync(file);
+        const promises = Object.keys(content.files).map(async (filename) => {
+          const fileData = await content.files[filename].async("text");
+          if (filename.endsWith(".kml")) {
+            const kmlLayer = omnivore.kml.parseString(fileData);
+            kmlLayer.addTo(mapRef.current);
+            return kmlLayer.getBounds();
+          } else if (
+            filename.endsWith(".geojson") ||
+            filename.endsWith(".json")
+          ) {
+            const geojsonLayer = L.geoJSON(JSON.parse(fileData));
+            geojsonLayer.addTo(mapRef.current);
+            return geojsonLayer.getBounds();
+          }
+          return null;
+        });
+
+        const boundsArray = await Promise.all(promises);
+        bounds = boundsArray.filter(Boolean);
+        if (bounds.length > 0) {
+          bounds = bounds.reduce((prev, curr) => prev.extend(curr));
+        }
+      } else {
+        console.log("Unsupported file type.");
+      }
+
+      if (bounds) {
+        mapRef.current.fitBounds(bounds);
+      }
+    };
+
+    fileReader.readAsArrayBuffer(file);
+  };
+
   return (
     <div className="flex flex-col items-center p-4">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
@@ -137,15 +220,32 @@ export default function App() {
           />
         </div>
         <button
-        onClick={getImage}
-        className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
-      >
-        Fetch Image
-      </button>
+          onClick={getImage}
+          className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
+        >
+          Fetch Image
+        </button>
+      </div>
+
+      <div className="flex flex-col mb-4">
+        <label className="font-bold">Upload KML/GeoJSON/JSON/ZIP File:</label>
+        <div className="flex items-center">
+          <input
+            type="file"
+            accept=".kml,.geojson,.json,.zip"
+            onChange={handleFileUpload}
+            className="border border-gray-300 rounded-lg p-2"
+          />
+          <button
+            onClick={handleFileSubmit}
+            className="ml-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+          >
+            Submit
+          </button>
+        </div>
       </div>
 
       <div className="flex w-full">
-        {/* Evalscript Selection with Scroll */}
         <div className="flex flex-col gap-4 w-1/3 overflow-y-auto h-[500px]">
           {evalscripts.evalscripts.map((_, index) => (
             <button
@@ -163,38 +263,33 @@ export default function App() {
           ))}
         </div>
 
-        {/* Map Container */}
-        <div className="w-2/3 ml-4">
-          <MapContainer
-            center={[46.07136085454608, 14.190902709960938]}
-            zoom={10}
-            style={{ height: "500px", width: "100%" }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        <MapContainer
+          ref={mapRef}
+          center={[0, 0]}
+          zoom={2}
+          style={{ width: "100%", height: "500px" }}
+          className="w-full"
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <FeatureGroup ref={featureGroupRef}>
+            <EditControl
+              position="topright"
+              onCreated={handleDrawCreate}
+              draw={{
+                rectangle: false,
+                circle: false,
+                circlemarker: false,
+                marker: false,
+                polyline: false,
+              }}
             />
-            <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
-            <FeatureGroup ref={featureGroupRef}>
-              <EditControl
-                position="topright"
-                onCreated={handleDrawCreate}
-                draw={{
-                  rectangle: true,
-                  polygon: true,
-                  circle: true,
-                  marker: true,
-                  polyline: true,
-                  circlemarker: true,
-                }}
-              />
-            </FeatureGroup>
-          </MapContainer>
-        </div>
+          </FeatureGroup>
+          <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
+        </MapContainer>
       </div>
-
-      {/* Fetch Image Button */}
-
     </div>
   );
 }
