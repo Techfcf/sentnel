@@ -49,7 +49,7 @@ export default function App() {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3dE9hV1o2aFJJeUowbGlsYXctcWd4NzlUdm1hX3ZKZlNuMW1WNm5HX0tVIn0.eyJleHAiOjE3Mjk2ODMyOTYsImlhdCI6MTcyOTY3OTY5NiwianRpIjoiZWNiMTA3ZTAtZGMzNi00YWRmLWJmZjktOGQzMzZmYWFiODBkIiwiaXNzIjoiaHR0cHM6Ly9zZXJ2aWNlcy5zZW50aW5lbC1odWIuY29tL2F1dGgvcmVhbG1zL21haW4iLCJzdWIiOiJlMzczZTI2OS0xYTAzLTRlMGEtYWU5NC1lMDMyMTUyODlkMzUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiNDUuMTE4LjE1OC4xOTkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1jYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJjbGllbnRBZGRyZXNzIjoiNDUuMTE4LjE1OC4xOTkiLCJhY2NvdW50IjoiMTE4MzdmNDEtNjI0Ni00NzQ3LTgwZWMtYTQ5NjA4MjNkNDZkIiwiY2xpZW50X2lkIjoiY2I5ZWU2ODMtNWEzMi00NTg4LTk2ZTMtY2E2NGJkNzc2NjMyIn0.a4t-nP7yjQ7vAjMJj8X7mYu030EhsEpcRd9XnWaM4XvrHUO7Jik1NMvQLEvJB8dRKdhDok4IqtbmkHfU7VvhcC_aIma29qu5ExS69DM9bfvNfHD3LCgpqwPjB-tEv7ivwK-3oeSA_TwvaB-9rTMGB9Dwdra_IK2LaJOt2XZySLG5uAGokfhpasOBXjMfuCTQjaeMpQBKrQFjRbOa-YmhQSqMsXeHeo2I-3huRGM5NPiJzbbRELdDpKvaVZwUZA30WS_u9J4oilyFIK5tZC4yarUKiA8w3pIXC69_6K7DduASeNybih7n9-OGzNzuODj7f14ddyrY3SRLYn9r1JOlEg",
+              "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ3dE9hV1o2aFJJeUowbGlsYXctcWd4NzlUdm1hX3ZKZlNuMW1WNm5HX0tVIn0.eyJleHAiOjE3MzAxMDA0NzAsImlhdCI6MTczMDA5Njg3MCwianRpIjoiY2ZhODdkZTItZWZjZC00NWQ4LWJkMzYtNjg1ODQ0MjI4ZDFkIiwiaXNzIjoiaHR0cHM6Ly9zZXJ2aWNlcy5zZW50aW5lbC1odWIuY29tL2F1dGgvcmVhbG1zL21haW4iLCJzdWIiOiJlMzczZTI2OS0xYTAzLTRlMGEtYWU5NC1lMDMyMTUyODlkMzUiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYjllZTY4My01YTMyLTQ1ODgtOTZlMy1jYTY0YmQ3NzY2MzIiLCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJjbGllbnRIb3N0IjoiMTU3LjM1LjQyLjE2MyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWNiOWVlNjgzLTVhMzItNDU4OC05NmUzLWNhNjRiZDc3NjYzMiIsImNsaWVudEFkZHJlc3MiOiIxNTcuMzUuNDIuMTYzIiwiYWNjb3VudCI6IjExODM3ZjQxLTYyNDYtNDc0Ny04MGVjLWE0OTYwODIzZDQ2ZCIsImNsaWVudF9pZCI6ImNiOWVlNjgzLTVhMzItNDU4OC05NmUzLWNhNjRiZDc3NjYzMiJ9.ZepQZ32hXcRy-TFilMHITNQn-2QSP9oFLUCBDmvKrQAzUuyjGBsmRnBmfe82EDq51xN7OiBD2QocDtPDbYRBqUZFmrPCboTp1vO9Mo6lf1y8_D2RDCEubowXfE-mseroOYAfR97YCKqEWhtjvRctBoBTlYyrF0zG7pgico0IyiQozdJeb87VjaWtlArqG8xA7nlUBgzbGyRCtClblNA2C7GZoHpwrn4z0ZJqIwdRPXaQN_OPnWcTds4ewzVI08jgHqkWr4KBJhCEibDq_K4oq-SCpnQQwN2-6jvQPFhqkiN2QIOuRitgct_i3erDMbI_zeAHXg2bPM8Biq4Ne0awmw", // Replace <YOUR_ACCESS_TOKEN> with your actual token
           },
           body: JSON.stringify({
             input: {
@@ -75,7 +75,7 @@ export default function App() {
                 height: 512,
               },
             },
-            evalscript: evalscripts.evalscripts[selectedEvalscript].script, // Use the selected evalscript
+            evalscript: evalscripts.evalscripts[selectedEvalscript].script,
           }),
         }
       );
@@ -116,76 +116,85 @@ export default function App() {
   };
 
   return (
-<>
-    <div className="my-[20px] ">
-    <label>Start Date: </label>
-    <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      dateFormat="yyyy-MM-dd"
-    />
-    <label>End Date: </label>
-    <DatePicker
-      selected={endDate}
-      onChange={(date) => setEndDate(date)}
-      dateFormat="yyyy-MM-dd"
-    />
-  </div>
-    <div className="flex flex-row justify-around ">
-      <div >
-      
+    <div className="flex flex-col items-center p-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+        <div className="flex flex-col">
+          <label className="text-red-500 font-bold">Start Date:</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="text-blue-500 font-bold">End Date:</label>
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            dateFormat="yyyy-MM-dd"
+            className="border border-gray-300 rounded-lg p-2"
+          />
+        </div>
+        <button
+        onClick={getImage}
+        className="mt-4 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full"
+      >
+        Fetch Image
+      </button>
+      </div>
 
-        {/* Buttons to select evalscripts */}
-        <div className="flex flex-col gap-4">
+      <div className="flex w-full">
+        {/* Evalscript Selection with Scroll */}
+        <div className="flex flex-col gap-4 w-1/3 overflow-y-auto h-[500px]">
           {evalscripts.evalscripts.map((_, index) => (
             <button
               key={index}
               onClick={() => setSelectedEvalscript(index)}
-              className="w-2/5 flex flex-row gap-x-[8px] items-center justify-normal  bg-green-100 hover:bg-green-200 text-black font-bold p-[10px] rounded-[50px] w-[300px]"
+              className="flex items-center bg-green-100 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-lg"
             >
-              {" "}
-              <img className="size-16 rounded-[100px] " src={evalscripts.evalscripts[index].image} alt="" />
-              <>{evalscripts.evalscripts[index].name}</>
+              <img
+                className="w-20 h-20 mr-2 rounded-full"
+                src={evalscripts.evalscripts[index].image}
+                alt=""
+              />
+              {evalscripts.evalscripts[index].name}
             </button>
           ))}
         </div>
 
-        <button
-          onClick={getImage}
-          className="bg-green-100 hover:bg-green-200 text-black font-bold py-2 px-4 rounded-full"
-        >
-          Fetch Image
-        </button>
+        {/* Map Container */}
+        <div className="w-2/3 ml-4">
+          <MapContainer
+            center={[46.07136085454608, 14.190902709960938]}
+            zoom={10}
+            style={{ height: "500px", width: "100%" }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
+            <FeatureGroup ref={featureGroupRef}>
+              <EditControl
+                position="topright"
+                onCreated={handleDrawCreate}
+                draw={{
+                  rectangle: true,
+                  polygon: true,
+                  circle: true,
+                  marker: true,
+                  polyline: true,
+                  circlemarker: true,
+                }}
+              />
+            </FeatureGroup>
+          </MapContainer>
+        </div>
       </div>
 
-      <div>
-        <MapContainer
-          center={[46.07136085454608, 14.190902709960938]}
-          zoom={10}
-          style={{ height: "600px", width: "1000px", marginTop: "20px" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
-          <FeatureGroup ref={featureGroupRef}>
-            <EditControl
-              position="topright"
-              onCreated={handleDrawCreate}
-              draw={{
-                rectangle: true,
-                polygon: true,
-                circle: true,
-                marker: false,
-                polyline: false,
-                circlemarker: false,
-              }}
-            />
-          </FeatureGroup>
-        </MapContainer>
-      </div>
+      {/* Fetch Image Button */}
+
     </div>
-    </>
   );
 }
