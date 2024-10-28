@@ -199,8 +199,10 @@ export default function App() {
   };
 
   return (
+    <div className="  bg-blue-200"> 
     <div className="flex flex-col items-center p-4">
       <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+      
         <div className="flex flex-col">
           <label className="text-red-500 font-bold">Start Date:</label>
           <DatePicker
@@ -211,7 +213,7 @@ export default function App() {
           />
         </div>
         <div className="flex flex-col">
-          <label className="text-blue-500 font-bold">End Date:</label>
+          <label className="text-red-500 font-bold">End Date:</label>
           <DatePicker
             selected={endDate}
             onChange={(date) => setEndDate(date)}
@@ -244,7 +246,7 @@ export default function App() {
           </button>
         </div>
       </div>
-
+    </div>
       <div className="flex w-full">
         <div className="flex flex-col gap-4 w-1/3 overflow-y-auto h-[500px]">
           {evalscripts.evalscripts.map((_, index) => (
@@ -279,11 +281,11 @@ export default function App() {
               position="topright"
               onCreated={handleDrawCreate}
               draw={{
-                rectangle: true,
-                circle: true,
-                circlemarker: true,
-                marker: true,
-                polyline: true,
+                rectangle: false,
+                circle: false,
+                circlemarker: false,
+                marker: false,
+                polyline: false,
               }}
             />
           </FeatureGroup>
