@@ -281,11 +281,11 @@ export default function App() {
               position="topright"
               onCreated={handleDrawCreate}
               draw={{
-                rectangle: false,
-                circle: false,
-                circlemarker: false,
-                marker: false,
-                polyline: false,
+                rectangle: true,
+                circle: true,
+                circlemarker: true,
+                marker: true,
+                polyline: true,
               }}
             />
           </FeatureGroup>
