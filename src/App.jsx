@@ -262,33 +262,33 @@ export default function App() {
             </button>
           ))}
         </div>
-        <div className="flex flex-col w-9/12 h-screen">
-        <MapContainer
-          center={[46.07136085454608, 14.190902709960938]}
-          zoom={10}
-          style={{ height: "500px", width: "1000px" }}
-          className="  rounded-[8px]"
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
-          <FeatureGroup ref={featureGroupRef}>
-            <EditControl
-              position="topright"
-              onCreated={handleDrawCreate}
-              draw={{
-                rectangle: true,
-                polygon: true,
-                polyline: true,
-                circle: true,
-                circlemarker: true,
-                marker: true,
-              }}
-            />
-          </FeatureGroup>
-        </MapContainer>
+        <div className="flex flex-col w-full h-screen">
+            <MapContainer
+              center={[46.07136085454608, 14.190902709960938]}
+              zoom={10}
+              style={{ height: "80vh", width: "100%" }} // Use viewport height for better responsiveness
+              className="rounded-[8px]"
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <ImageLayer imageUrl={imageUrl} aoiBounds={aoiBounds} />
+              <FeatureGroup ref={featureGroupRef}>
+                <EditControl
+                  position="topright"
+                  onCreated={handleDrawCreate}
+                  draw={{
+                    rectangle: true,
+                    polygon: true,
+                    polyline: true,
+                    circle: true,
+                    circlemarker: true,
+                    marker: true,
+                  }}
+                />
+              </FeatureGroup>
+            </MapContainer>
         </div>
       </div>
     </div>
